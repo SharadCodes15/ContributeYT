@@ -1,0 +1,52 @@
+======================================================================
+       YouTube Video/Audio Downloader
+          Supports Videos & Playlists
+======================================================================
+
+Enter YouTube URL (video or playlist): https://youtu.be/xvT1jH8B9AM
+
+Processing URL: https://www.youtube.com/watch?v=xvT1jH8B9AM
+Warning: cookies.txt not found at e:\githubApp\ContributeYT\cookies.txt
+Extracting information...
+
+Title: KALYANI (with Shreya Ghoshal) OFFICIAL MUSIC VIDEO | ARJN | KDS | FIFTY4 | RONN | SHREYA GHOSHAL |
+Duration: 4:47
+Channel: MONEY VERSE RECORDS
+
+======================================================================
+Download Mode:
+======================================================================
+1. VIDEO (MP4)
+2. AUDIO (MP3)
+======================================================================
+
+Select mode (1 for Video, 2 for Audio) [default: 1]: 1
+
+----------------------------------------------------------------------
+Video Quality Options:
+----------------------------------------------------------------------
+1. Best available quality
+2. 2160p (4K)
+3. 1440p (2K)
+4. 1080p (Full HD)
+5. 720p (HD)
+6. 480p
+7. 360p
+----------------------------------------------------------------------
+
+Select video quality (1-7) [default: 1]: 1
+Waiting 1.5s before starting download...
+
+Downloading VIDEO with quality: best...
+[youtube] Extracting URL: https://www.youtube.com/watch?v=xvT1jH8B9AM 
+[youtube] xvT1jH8B9AM: Downloading webpage 
+WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one 
+[youtube] Sleeping 1 seconds ... 
+[youtube] xvT1jH8B9AM: Downloading android vr player API JSON 
+[info] xvT1jH8B9AM: Downloading 1 format(s): 401+251 
+[download] Sleeping 4.72 seconds ... 
+[download] Destination: KALYANI (with Shreya Ghoshal) OFFICIAL MUSIC VIDEO ｜ ARJN ｜ KDS ｜ FIFTY4 ｜ RONN ｜ SHREYA GHOSHAL ｜.f401.mp4 
+Progress: 9.8% | Speed: 10.31 MB/sERROR: unable to download video data: HTTP Error 403: Forbidden 
+
+[ERROR] Error downloading:
+   ERROR: unable to download video data: HTTP Error 403: Forbidden
