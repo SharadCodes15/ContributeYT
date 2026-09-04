@@ -826,14 +826,14 @@ def urlInput():
 
     if not url:
         print(f"{RED}✘ Error: No URL provided!{RESET}")
-        return
+        return False
 
     if not validate_url(url):
         print(
             f"{RED}✘ Error: Invalid YouTube URL:{RESET}"
         )
         print(f"  {url}")
-        return
+        return False
 
     process_url(url)
 
@@ -947,7 +947,7 @@ def process_url(url):
     # Get info
     info = get_video_info(url, playlist_mode=download_playlist)
     if not info:
-        return
+        return False
     
     # Display info
     if download_playlist:
@@ -979,37 +979,86 @@ def process_url(url):
     if mode_choice == '2':
         # Audio mode
         audio_quality = select_audio_quality()
-        download_audio(url, audio_quality, playlist_mode=download_playlist, playlist_items=playlist_items)
+        success = download_audio(url, audio_quality, playlist_mode=download_playlist, playlist_items=playlist_items)
     else:
         # Video mode
         video_quality = select_video_quality()
-        download_video(url, video_quality, playlist_mode=download_playlist, playlist_items=playlist_items)
+        success = download_video(url, video_quality, playlist_mode=download_playlist, playlist_items=playlist_items)
     print(f"{GREEN} DOWNLOADING.... {RESET}")
-
+    return success
 
 def main():
     while True:
         clear_screen()
         show_header()
+
+        # -----------------------------
+        # Check FFmpeg
+        # -----------------------------
         if not check_ffmpeg():
+
             title = "FFMPEG REQUIRED"
-            content =  f"{RED}ffmpeg not found! Audio/MP3 conversion may not work.{RESET}"
-            linktoffmpeg = f"{BLUE}Install ffmpeg: https://ffmpeg.org/download.html{RESET}"
-            ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+
+            content = (
+                f"{RED}"
+                "ffmpeg not found! Audio/MP3 conversion may not work."
+                f"{RESET}"
+            )
+
+            linktoffmpeg = (
+                f"{BLUE}"
+                "Install ffmpeg: https://ffmpeg.org/download.html"
+                f"{RESET}"
+            )
+
+            ansi_escape = re.compile(
+                r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])'
+            )
+
             def clean_len(text):
                 return len(ansi_escape.sub('', text))
+
             content_width = max(
                 clean_len(title),
                 clean_len(linktoffmpeg),
                 clean_len(content)
             ) + 4
 
-            print(f"{GREEN}╔{'═' * content_width}╗{RESET}")
-            print(f"{GREEN}║{title.center(content_width)}║{RESET}")
-            print(f"{GREEN}║{' ' * content_width}║{RESET}")
-            print(f"{GREEN}║ {content}{' ' * (content_width - clean_len(content) - 1)}║{RESET}")
-            print(f"{GREEN}║ {linktoffmpeg}{' ' * (content_width - clean_len(linktoffmpeg) - 1)}║{RESET}")
-            print(f"{GREEN}╚{'═' * content_width}╝{RESET}")
+            print(
+                f"{GREEN}"
+                f"╔{'═' * content_width}╗"
+                f"{RESET}"
+            )
+
+            print(
+                f"{GREEN}║"
+                f"{title.center(content_width)}"
+                f"║{RESET}"
+            )
+
+            print(
+                f"{GREEN}║"
+                f"{' ' * content_width}"
+                f"║{RESET}"
+            )
+
+            print(
+                f"{GREEN}║ {content}"
+                f"{' ' * (content_width - clean_len(content) - 1)}"
+                f"║{RESET}"
+            )
+
+            print(
+                f"{GREEN}║ {linktoffmpeg}"
+                f"{' ' * (content_width - clean_len(linktoffmpeg) - 1)}"
+                f"║{RESET}"
+            )
+
+            print(
+                f"{GREEN}"
+                f"╚{'═' * content_width}╝"
+                f"{RESET}"
+            )
 
             print(
                 f"\n{YELLOW}"
@@ -1018,41 +1067,82 @@ def main():
             )
 
             input(
-                f"\n{GRAY}Press Enter to exit...{RESET}"
+                f"\n{GRAY}"
+                "Press Enter to exit..."
+                f"{RESET}"
             )
 
             sys.exit(1)
 
+        # -----------------------------
+        # Main Menu
+        # -----------------------------
+        show_menu()
+
+        choice = input(
+            f"{YELLOW}"
+            "➜  Select an option [1-4]: "
+            f"{RESET}"
+        ).strip()
+
+        # -----------------------------
+        # Video Download
+        # -----------------------------
+        if choice == "1":
+
+            clear_screen()
+            show_header()
+
+            urlInput()
+
+            # urlInput()/process_url() should call pause()
+            # when an error occurs.
+
+        # -----------------------------
+        # Audio Download
+        # -----------------------------
+        elif choice == "2":
+
+            clear_screen()
+            show_header()
+
+            urlInput()
+
+            # urlInput()/process_url() should call pause()
+            # when an error occurs.
+
+        # -----------------------------
+        # About
+        # -----------------------------
+        elif choice == "3":
+
+            clear_screen()
+            show_header()
+
+            about()
+
+        # -----------------------------
+        # Exit
+        # -----------------------------
+        elif choice == "4":
+
+            clear_screen()
+            thankyou()
+
+            sys.exit(0)
+
+        # -----------------------------
+        # Invalid Choice
+        # -----------------------------
         else:
-            show_menu()
 
-            choice = input(
-                f"{YELLOW}➜  Select an option [1-4]: {RESET}"
-            ).strip()
+            print(
+                f"\n{RED}"
+                "✘ Invalid option. Please choose 1-4."
+                f"{RESET}"
+            )
 
-            if choice == "1":
-                clear_screen()
-                show_header()
-                urlInput()
-
-            elif choice == "2":
-                clear_screen()
-                show_header()
-                urlInput()
-
-            elif choice == "3":
-                clear_screen()
-                show_header()
-                about()
-
-            elif choice == "4":
-                clear_screen()
-                thankyou()
-                sys.exit(0)
-
-            else:
-                print(f"\n{RED}✘ Invalid option. Please choose 1-4.{RESET}")
-                time.sleep(1)
+            time.sleep(1)
 
 
 if __name__ == "__main__":
